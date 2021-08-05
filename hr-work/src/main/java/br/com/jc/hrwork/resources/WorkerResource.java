@@ -4,6 +4,7 @@ import br.com.jc.hrwork.entities.Worker;
 import br.com.jc.hrwork.repositories.WorkerRepositorie;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,11 +18,21 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/workers")
 public class WorkerResource {
+    @Value("${test.config}")
+    private String testeConfig;
+
     @Autowired
     private Environment environment;
 
     @Autowired
     private WorkerRepositorie workerRepositorie;
+
+    @GetMapping(path = {"configs"})
+    public ResponseEntity<Void> getConfigs(){
+        log.info("CONFIG: "+testeConfig);
+        return ResponseEntity.noContent().build();
+    }
+
 
     @GetMapping
     public ResponseEntity<List<Worker>> findAll(){
