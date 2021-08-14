@@ -1,7 +1,8 @@
 package br.com.jc.hrwork.resources;
 
 import br.com.jc.hrwork.entities.Worker;
-import br.com.jc.hrwork.repositories.WorkerRepositorie;
+import br.com.jc.hrwork.repositories.WorkerRepository;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,7 +28,8 @@ public class WorkerResource {
     private Environment environment;
 
     @Autowired
-    private WorkerRepositorie workerRepositorie;
+    private WorkerRepository workerRepository;
+
 
     @GetMapping(path = {"configs"})
     public ResponseEntity<Void> getConfigs(){
@@ -38,7 +40,7 @@ public class WorkerResource {
 
     @GetMapping
     public ResponseEntity<List<Worker>> findAll(){
-        List<Worker> list = workerRepositorie.findAll();
+        List<Worker> list = workerRepository.findAll();
         return ResponseEntity.ok().body(list);
     }
 
@@ -47,7 +49,7 @@ public class WorkerResource {
 
         log.info("Port: " + environment.getProperty("local.server.port"));
 
-        Worker worker = workerRepositorie.findById(id).get();
+        Worker worker = workerRepository.findById(id).get();
         return ResponseEntity.ok().body(worker);
     }
 }
